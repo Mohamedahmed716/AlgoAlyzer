@@ -19,7 +19,7 @@ public class HeapSort implements SortingService {
         }
         for (int i = n - 1; i > 0; i--) {
             int temp = array[0]; array[0] = array[i]; array[i] = temp;
-            metrics[1]++; // Interchange
+            metrics[1]++;
             heapify(array, i, 0, metrics);
         }
 
@@ -41,7 +41,7 @@ public class HeapSort implements SortingService {
 
         if (largest != i) {
             int swap = arr[i]; arr[i] = arr[largest]; arr[largest] = swap;
-            metrics[1]++; // Interchange
+            metrics[1]++;
             heapify(arr, n, largest, metrics);
         }
     }

@@ -48,8 +48,6 @@ export class ComparisonComponent {
       alert('No data to export. Please run an analysis first.');
       return;
     }
-
-    // UPDATED: Added Min and Max Runtime to headers
     const headers = [
       'Algorithm Name',
       'Array Size',
@@ -64,7 +62,6 @@ export class ComparisonComponent {
     const csvRows = [headers.join(',')];
 
     for (const row of results) {
-      // UPDATED: Included row.minRuntime and row.maxRuntime in the export loop
       const values = [
         row.algorithmName,
         row.arraySize,

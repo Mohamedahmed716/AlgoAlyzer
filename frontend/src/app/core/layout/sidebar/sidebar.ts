@@ -21,25 +21,15 @@ export class SidebarComponent {
   algorithms = { selection: true, insertion: true, bubble: false, merge: true, heap: true, quick: true };
   arraySizesInput: string = '100, 1000, 10000';
 
-  /**
-   * Handles incoming data from the FileUploadComponent.
-   * Logic updated to support multiple files by merging data.
-   */
+
   handleFile(event: { filename: string, data: number[] }) {
     if (event.data && event.data.length > 0) {
-      // 1. Parse current values in the input box
       const existingNumbers = this.arraySizesInput
         .split(',')
         .map(s => parseInt(s.trim(), 10))
         .filter(n => !isNaN(n));
-
-      // 2. Combine existing values with the new data from the file
       const combinedNumbers = [...existingNumbers, ...event.data];
-
-      // 3. Remove duplicates and sort for a clean list
       const uniqueSortedNumbers = Array.from(new Set(combinedNumbers)).sort((a, b) => a - b);
-
-      // 4. Update the UI string
       this.arraySizesInput = uniqueSortedNumbers.join(', ');
     }
   }

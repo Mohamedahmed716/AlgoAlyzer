@@ -3,11 +3,10 @@ package com.algoalyzer.backend.dto;
 import java.util.List;
 
 public class SortRequestDTO {
-    private List<String> generationModes; // e.g., ["Random", "Sorted", "Inversely Sorted"]
-    private List<Integer> arraySizes;     // e.g., [100, 1000, 10000]
-    private List<String> algorithms;      // e.g., ["Quick Sort", "Merge Sort"]
+    private List<String> generationModes; 
+    private List<Integer> arraySizes;     
+    private List<String> algorithms;      
 
-    // Getters and Setters
     public List<String> getGenerationModes() {
         return generationModes;
     }

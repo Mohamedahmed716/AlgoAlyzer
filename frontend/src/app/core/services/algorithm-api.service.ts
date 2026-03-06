@@ -5,7 +5,7 @@ import { SortRequest } from '../models/sort-request.model';
 import { SortResult } from '../models/sort-result.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' //Singelton Pattern
 })
 export class AlgorithmApiService {
   private apiUrl = 'http://localhost:8080/api/v1/sort';

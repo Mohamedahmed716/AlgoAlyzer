@@ -18,7 +18,7 @@ export class VisualizationComponent implements OnInit {
 
   ngOnInit() {
     this.animService.generateArray(this.arraySize);
-    this.animService.setSpeed(280); // Set default starting speed to match the slider at 20
+    this.animService.setSpeed(280);
   }
 
   updateSize() {
@@ -50,12 +50,6 @@ export class VisualizationComponent implements OnInit {
 
   updateSpeed(event: Event) {
     const val = parseInt((event.target as HTMLInputElement).value, 10);
-
-    // NEW: Exponential speed curve for smooth, gradual transition.
-    // Slider is 1 to 100.
-    // 1   = 1000ms (Agonizingly Slow)
-    // 50  = ~72ms  (Comfortable Medium)
-    // 100 = 5ms    (Lightning Fast)
     const maxDelay = 1000;
     const minDelay = 5;
     const delay = Math.floor(maxDelay * Math.pow((minDelay / maxDelay), (val - 1) / 99));

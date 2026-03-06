@@ -12,11 +12,10 @@ public class SortResultDTO {
     private long comparisons;
     private long interchanges;
 
-    // Default Constructor (deserialize JSON properly)
+    // Default Constructor (deserialize JSON)
     public SortResultDTO() {
     }
 
-    // All-Args Constructor
     public SortResultDTO(String algorithmName, int arraySize, String mode, int runs, 
                          double avgRuntime, double minRuntime, double maxRuntime, 
                          long comparisons, long interchanges) {

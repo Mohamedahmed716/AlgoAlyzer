@@ -6,13 +6,10 @@ export type ThemeMode = 'dark' | 'light';
   providedIn: 'root'
 })
 export class ThemeService {
-  // Signal to hold the current theme state (defaults to dark for this app)
   public currentTheme = signal<ThemeMode>('dark');
 
   constructor() {
     this.initializeTheme();
-
-    // Angular Effect: Automatically runs whenever currentTheme signal changes
     effect(() => {
       const theme = this.currentTheme();
       this.applyThemeToDocument(theme);
@@ -26,7 +23,6 @@ export class ThemeService {
     if (savedTheme) {
       this.currentTheme.set(savedTheme);
     } else {
-      // Check system preference if no saved theme exists
       const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
       this.currentTheme.set(prefersLight ? 'light' : 'dark');
     }

@@ -5,7 +5,7 @@ import { SortResult } from '../models/sort-result.model';
   providedIn: 'root'
 })
 export class AppStateService {
-  // Signals to hold our global app data
+  // Signals to hold global app data
   public searchResults = signal<SortResult[]>([]);
   public isLoading = signal<boolean>(false);
 }
