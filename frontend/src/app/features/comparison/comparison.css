@@ -1,0 +1,36 @@
+.page-container { padding: 32px; max-width: 1400px; margin: 0 auto; }
+.page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
+.page-header h2 { font-size: 1.8rem; margin-bottom: 4px; color: var(--text-main); font-weight: bold;}
+.page-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+.btn-outline { background: var(--bg-panel); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: 0.2s;}
+.btn-outline:hover:not(:disabled) { background: rgba(255,255,255,0.05); }
+.btn-outline:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px; }
+
+.table-container { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; overflow-x: auto; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
+th { padding: 16px 20px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.2); font-weight: 600; letter-spacing: 0.5px;}
+td { padding: 16px 20px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.02); color: var(--text-main); }
+tr:hover td { background: rgba(255,255,255,0.03); }
+
+.algo-name-cell { display: flex; align-items: center; gap: 10px; }
+.font-medium { font-weight: 500; }
+.font-mono { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+.bold { font-weight: bold; }
+.highlight-green { color: var(--success); }
+
+.mode-badge { background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; }
+
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.dot.green { background: var(--success); }
+.dot.blue { background: #3b82f6; }
+.dot.purple { background: #a855f7; }
+.dot.orange { background: #f97316; }
+.dot.red { background: #ef4444; }
+.dot.gray { background: #94a3b8; }
+
+.empty-state { text-align: center; padding: 40px !important; color: var(--text-muted) !important; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 10px;}
+.animate-spin { animation: spin 1s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }

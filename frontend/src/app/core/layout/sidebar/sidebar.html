@@ -1,1 +1,44 @@
-<p>sidebar works!</p>
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <h2><span class="material-icons-round text-sm">tune</span> Program Inputs</h2>
+
+    <div class="input-group">
+      <label>Generation Mode</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" [(ngModel)]="modes.random"> Random</label>
+        <label><input type="checkbox" [(ngModel)]="modes.sorted"> Sorted</label>
+        <label><input type="checkbox" [(ngModel)]="modes.inverselySorted"> Inversely Sorted</label>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Import Array Sizes (.txt)</label>
+      <app-file-upload (fileParsed)="handleFile($event)"></app-file-upload>
+    </div>
+
+    <div class="input-group">
+      <label>Array Size (N)</label>
+      <input type="text" [(ngModel)]="arraySizesInput" placeholder="e.g. 100, 1000, 10000" class="text-input">
+      <p class="input-hint">Values can be manually typed or imported via files.</p>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h2><span class="material-icons-round text-sm">category</span> Algorithms</h2>
+    <div class="checkbox-group">
+      <label><input type="checkbox" [(ngModel)]="algorithms.selection"> Selection Sort</label>
+      <label><input type="checkbox" [(ngModel)]="algorithms.insertion"> Insertion Sort</label>
+      <label><input type="checkbox" [(ngModel)]="algorithms.bubble"> Bubble Sort</label>
+      <label><input type="checkbox" [(ngModel)]="algorithms.merge"> Merge Sort</label>
+      <label><input type="checkbox" [(ngModel)]="algorithms.heap"> Heap Sort</label>
+      <label><input type="checkbox" [(ngModel)]="algorithms.quick"> Quick Sort</label>
+    </div>
+  </div>
+
+  <button class="btn-primary" (click)="runAnalysis()" [disabled]="appState.isLoading()">
+    <span class="material-icons-round">
+      {{ appState.isLoading() ? 'hourglass_empty' : 'play_arrow' }}
+    </span>
+    {{ appState.isLoading() ? 'Running Analysis...' : 'Run Analysis' }}
+  </button>
+</aside>

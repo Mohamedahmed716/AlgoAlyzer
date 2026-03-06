@@ -1,0 +1,106 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Sorting Comparison</h2>
+      <p>Analyzing performance metrics across algorithms.</p>
+    </div>
+    <button class="btn-outline" (click)="exportCsv()" [disabled]="appState.searchResults().length === 0">
+      <span class="material-icons-round text-sm">download</span> Export CSV
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <app-stat-card
+      label="Fastest Algo"
+      [title]="fastestAlgo().name"
+      [value]="fastestAlgo().time"
+      subtitle="avg runtime"
+      icon="speed"
+      theme="emerald">
+    </app-stat-card>
+
+    <app-stat-card
+      label="Total Runs"
+      [title]="appState.searchResults().length.toString()"
+      subtitle="Across all datasets"
+      icon="repeat"
+      theme="blue">
+    </app-stat-card>
+
+    <app-stat-card
+      label="Dataset Type"
+      [title]="uniqueDatasets()"
+      subtitle="Selected modes"
+      icon="data_array"
+      theme="purple">
+    </app-stat-card>
+
+    <app-stat-card
+      label="Most Complex"
+      [title]="mostComplexAlgo().name"
+      [value]="mostComplexAlgo().comps"
+      subtitle="comparisons"
+      icon="compare_arrows"
+      theme="orange">
+    </app-stat-card>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Algorithm</th>
+          <th>Size</th>
+          <th>Mode</th>
+          <th>Runs</th>
+          <th>Avg Runtime (ms)</th>
+          <th>Min Runtime (ms)</th>
+          <th>Max Runtime (ms)</th>
+          <th>Comparisons</th>
+          <th>Interchanges</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (result of appState.searchResults(); track result.algorithmName + result.arraySize + result.mode) {
+          <tr>
+            <td>
+              <div class="algo-name-cell">
+                <span class="dot"
+                      [class.green]="result.algorithmName === 'Quick Sort'"
+                      [class.blue]="result.algorithmName === 'Merge Sort'"
+                      [class.purple]="result.algorithmName === 'Heap Sort'"
+                      [class.orange]="result.algorithmName === 'Insertion Sort'"
+                      [class.red]="result.algorithmName === 'Selection Sort'"
+                      [class.gray]="result.algorithmName === 'Bubble Sort'">
+                </span>
+                <span class="font-medium">{{ result.algorithmName }}</span>
+              </div>
+            </td>
+            <td class="font-mono">{{ result.arraySize | number }}</td>
+            <td><span class="mode-badge">{{ result.mode }}</span></td>
+            <td class="font-mono">{{ result.runs }}</td>
+            <td class="font-mono bold" [class.highlight-green]="result.avgRuntime < 5">{{ result.avgRuntime | number:'1.2-4' }}</td>
+
+            <td class="font-mono">{{ result.minRuntime | number:'1.2-4' }}</td>
+            <td class="font-mono">{{ result.maxRuntime | number:'1.2-4' }}</td>
+
+            <td class="font-mono">{{ result.comparisons | number }}</td>
+            <td class="font-mono">{{ result.interchanges | number }}</td>
+          </tr>
+        }
+
+        @if (appState.searchResults().length === 0) {
+          <tr>
+            <td colspan="9" class="empty-state">
+              @if (appState.isLoading()) {
+                <span class="material-icons-round animate-spin">hourglass_empty</span> Processing algorithms...
+              } @else {
+                Configure inputs in the sidebar and click "Run Analysis" to see results.
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

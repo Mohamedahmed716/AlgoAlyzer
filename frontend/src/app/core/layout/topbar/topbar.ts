@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-topbar',
-  imports: [],
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './topbar.html',
-  styleUrl: './topbar.css',
+  styleUrls: ['./topbar.css']
 })
-export class Topbar {
-
+export class TopbarComponent {
+  public themeService = inject(ThemeService);
 }

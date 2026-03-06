@@ -1,0 +1,27 @@
+.topbar {
+  height: 60px;
+  background-color: var(--bg-panel);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand h1 { font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
+.brand span { color: var(--primary); }
+.icon-logo { color: var(--primary); font-size: 24px; background: rgba(99, 102, 241, 0.1); padding: 6px; border-radius: 8px; }
+
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-links { display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 8px; }
+.nav-links a { text-decoration: none; color: var(--text-muted); padding: 6px 16px; border-radius: 4px; font-size: 0.9rem; transition: all 0.2s; font-weight: 500; }
+.nav-links a:hover { color: var(--text-main); }
+.nav-links a.active-link { background-color: var(--border-color); color: var(--text-main); }
+
+.theme-toggle { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 8px; border-radius: 8px; display: flex; align-items: center; transition: 0.2s; }
+.theme-toggle:hover { background: rgba(255,255,255,0.05); color: var(--text-main); }
+
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(to top right, var(--primary), #a855f7); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.75rem; }

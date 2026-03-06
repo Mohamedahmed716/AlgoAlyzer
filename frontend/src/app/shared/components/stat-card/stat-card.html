@@ -1,0 +1,15 @@
+<div class="stat-card">
+  <div class="card-header">
+    <div>
+      <p class="stat-label">{{ label }}</p>
+      <h3 class="stat-title">{{ title }}</h3>
+    </div>
+    <div class="icon-container" [ngClass]="'bg-' + theme">
+      <span class="material-icons-round" [ngClass]="'text-' + theme">{{ icon }}</span>
+    </div>
+  </div>
+  <p class="stat-footer">
+    <span class="stat-value" [ngClass]="'text-' + theme">{{ value }}</span>
+    <span class="stat-subtitle">{{ subtitle }}</span>
+  </p>
+</div>

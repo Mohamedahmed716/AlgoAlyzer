@@ -1,0 +1,6 @@
+<div class="file-dropzone" [class.dragging]="isDragging" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" (click)="triggerFileInput()">
+  <span class="material-icons-round icon">upload_file</span>
+  <p class="primary-text">Upload .txt files</p>
+  <p class="secondary-text">Drag multiple files or <span>browse</span></p>
+  <input type="file" #fileInput multiple accept=".txt" (change)="onFileSelected($event)" class="hidden-input">
+</div>

@@ -1,0 +1,15 @@
+.stat-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); transition: transform 0.2s, box-shadow 0.2s; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.stat-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; }
+.stat-title { font-size: 1.4rem; color: var(--text-main); margin-top: 6px; font-weight: 700; }
+.icon-container { padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.icon-container span { font-size: 20px; }
+.stat-footer { font-size: 0.85rem; display: flex; align-items: baseline; gap: 6px; }
+.stat-value { font-weight: 600; }
+.stat-subtitle { color: var(--text-muted); font-weight: 400; }
+
+.bg-emerald { background: rgba(16, 185, 129, 0.15); } .text-emerald { color: var(--success); }
+.bg-blue { background: rgba(59, 130, 246, 0.15); } .text-blue { color: #3b82f6; }
+.bg-purple { background: rgba(168, 85, 247, 0.15); } .text-purple { color: #a855f7; }
+.bg-orange { background: rgba(249, 115, 22, 0.15); } .text-orange { color: #f97316; }
