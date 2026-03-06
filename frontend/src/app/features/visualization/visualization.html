@@ -1,14 +1,15 @@
 <div class="viz-container">
-
   <div class="viz-header">
     <div class="title-group">
-      <span class="status-indicator" [class.pulse]="animService.isRunning()"></span>
+      <span class="status-indicator" [class.pulse]="animService.isRunning() && !isPaused"></span>
       <h2>Visualization Mode</h2>
     </div>
 
     <div class="status-container">
-      @if (animService.isRunning()) {
-        <span class="status-badge running">Running: {{ selectedAlgo }}</span>
+      @if (animService.isRunning() || isPaused) {
+        <span class="status-badge running" [style.background]="isPaused ? 'rgba(245, 158, 11, 0.2)' : ''" [style.color]="isPaused ? '#f59e0b' : ''" [style.border-color]="isPaused ? 'rgba(245, 158, 11, 0.3)' : ''">
+          {{ isPaused ? 'Paused' : 'Running' }}: {{ selectedAlgo }}
+        </span>
       } @else {
         <span class="status-badge idle">Status: Idle</span>
 
@@ -75,15 +76,21 @@
   </div>
 
   <div class="controls-hud">
-    <button class="icon-btn" (click)="reset()" title="Reset Array" [disabled]="animService.isRunning()">
+    <button class="icon-btn" (click)="reset()" title="Reset Array" [disabled]="animService.isRunning() && !isPaused">
       <span class="material-icons-round">skip_previous</span>
     </button>
 
-    <button class="play-btn" (click)="startSort()" [disabled]="animService.isRunning()">
-      <span class="material-icons-round">{{ animService.isRunning() ? 'hourglass_empty' : 'play_arrow' }}</span>
-    </button>
+    @if (!isPaused) {
+      <button class="play-btn" (click)="startSort()" [disabled]="animService.isRunning()">
+        <span class="material-icons-round">{{ animService.isRunning() ? 'hourglass_empty' : 'play_arrow' }}</span>
+      </button>
+    } @else {
+      <button class="play-btn" (click)="resumeSort()" style="background-color: #f59e0b; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">
+        <span class="material-icons-round">play_arrow</span>
+      </button>
+    }
 
-    <button class="icon-btn" (click)="animService.stop()" title="Pause">
+    <button class="icon-btn" (click)="pauseSort()" title="Pause" [disabled]="!animService.isRunning() || isPaused">
       <span class="material-icons-round">pause</span>
     </button>
 
@@ -98,7 +105,7 @@
         [(ngModel)]="arraySize"
         (change)="updateSize()"
         class="number-input"
-        [disabled]="animService.isRunning()"
+        [disabled]="animService.isRunning() || isPaused"
       />
     </div>
 

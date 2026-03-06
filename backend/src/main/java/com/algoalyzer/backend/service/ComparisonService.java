@@ -18,13 +18,12 @@ public class ComparisonService {
     private Map<String, SortingService> algorithms;
 
     public List<SortResultDTO> runComparisons(SortRequestDTO request) {
-        
         List<SortResultDTO> results = new ArrayList<>();
-        
         int RUNS = 10; 
 
         for (int size : request.getArraySizes()) {
             for (String mode : request.getGenerationModes()) {
+                
                 int[] baseArray = ArrayGenerator.generate(size, mode);
 
                 for (String algoName : request.getAlgorithms()) {
@@ -35,17 +34,22 @@ public class ComparisonService {
                         double maxRuntime = Double.MIN_VALUE;
                         double totalRuntime = 0.0;
                         SortResultDTO finalResult = null;
+
                         for (int i = 0; i < RUNS; i++) {
                             int[] arrayToSort = baseArray.clone();
+                            
                             SortResultDTO currentResult = algo.sort(arrayToSort, mode);
                             double time = currentResult.getAvgRuntime();
+                            
                             if (time < minRuntime) minRuntime = time;
                             if (time > maxRuntime) maxRuntime = time;
                             totalRuntime += time;
+                            
                             if (i == RUNS - 1) {
                                 finalResult = currentResult;
                             }
                         }
+
                         if (finalResult != null) {
                             finalResult.setRuns(RUNS);
                             finalResult.setAvgRuntime(totalRuntime / RUNS);

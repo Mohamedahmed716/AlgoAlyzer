@@ -15,6 +15,7 @@ export class VisualizationComponent implements OnInit {
 
   selectedAlgo: string = 'Bubble Sort';
   arraySize: number = 25;
+  isPaused: boolean = false;
 
   ngOnInit() {
     this.animService.generateArray(this.arraySize);
@@ -27,11 +28,14 @@ export class VisualizationComponent implements OnInit {
 
     if (!this.animService.isRunning()) {
       this.animService.generateArray(this.arraySize);
+      this.isPaused = false;
     }
   }
 
   startSort() {
-    if (this.animService.isRunning()) return;
+    if (this.animService.isRunning() && !this.isPaused) return;
+
+    this.isPaused = false;
 
     switch (this.selectedAlgo) {
       case 'Bubble Sort': this.animService.runBubbleSort(); break;
@@ -44,16 +48,35 @@ export class VisualizationComponent implements OnInit {
     }
   }
 
+  pauseSort() {
+    this.isPaused = true;
+    // Tells the service to trap the loop in place
+    if (typeof (this.animService as any).pause === 'function') {
+      (this.animService as any).pause();
+    }
+  }
+
+  resumeSort() {
+    this.isPaused = false;
+    // Tells the service to release the trap and continue
+    if (typeof (this.animService as any).resume === 'function') {
+      (this.animService as any).resume();
+    }
+  }
+
   reset() {
+    this.isPaused = false;
+    // Tells the service to kill the loop completely
+    if (typeof this.animService.stop === 'function') {
+      this.animService.stop();
+    }
     this.animService.generateArray(this.arraySize);
   }
 
   updateSpeed(event: Event) {
     const val = parseInt((event.target as HTMLInputElement).value, 10);
-    const maxDelay = 1000;
-    const minDelay = 5;
-    const delay = Math.floor(maxDelay * Math.pow((minDelay / maxDelay), (val - 1) / 99));
-
+    // Linear speed: 1000ms at slowest, 5ms at fastest
+    const delay = Math.max(5, Math.floor(1000 - ((val - 1) * 10.05)));
     this.animService.setSpeed(delay);
   }
 }

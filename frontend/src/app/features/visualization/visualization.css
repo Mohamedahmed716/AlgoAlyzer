@@ -1,24 +1,5 @@
-/* Container safely stacks elements vertically with gaps */
-.viz-container {
-  padding: 32px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-
-/* Header is no longer absolute. It sits at the top naturally. */
-.viz-header {
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+.viz-container { padding: 32px; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 24px; box-sizing: border-box; overflow-y: auto; }
+.viz-header { width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 8px; }
 .title-group { display: flex; align-items: center; gap: 10px; }
 .title-group h2 { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--text-main); }
 .status-indicator { width: 10px; height: 10px; border-radius: 50%; background-color: var(--success); }
@@ -35,12 +16,12 @@
 .algo-select:focus { border-color: var(--primary); }
 .algo-select:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Canvas flexes to fill available height safely */
 .canvas-area {
   width: 100%;
   max-width: 1200px;
   flex: 1;
-  min-height: 400px;
+  min-height: 350px;
+  max-height: 700px;
   display: flex;
   align-items: flex-end;
   justify-content: space-evenly;
@@ -53,15 +34,16 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
+
 .grid-lines { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; opacity: 0.05; }
 .grid-lines .line { width: 100%; height: 1px; background: white; }
 
-.orb-track { height: 100%; flex: 1 1 0%; max-width: 40px; position: relative; display: flex; justify-content: center; }
+.orb-track { height: 80%; flex: 1 1 0%; max-width: 40px; position: relative; display: flex; justify-content: center; }
 .orb-track::before { content: ''; position: absolute; bottom: 0; width: 1px; height: 100%; background: linear-gradient(to top, rgba(255,255,255,0.1), transparent); }
 
-.orb { width: 85%; min-width: 2px; max-width: 16px; border-radius: 999px; position: absolute; bottom: 0; transition: all 0.2s ease-in-out; }
-.active-orb { transform: scale(1.3); border: 2px solid white; z-index: 10; }
-.swapping-orb { transform: scale(1.5); border: 2px solid white; z-index: 20; }
+.orb { width: 85%; min-width: 2px; max-width: 16px; border-radius: 999px; position: absolute; bottom: 0; transition: all 0.1s ease-in-out; }
+.active-orb { transform: scale(1.1); border: 2px solid white; z-index: 10; }
+.swapping-orb { transform: scale(1.1); border: 2px solid white; z-index: 20; }
 .sorted-orb { transform: scale(1.1); }
 
 .stats-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border: 1px solid var(--border-color); border-radius: 16px; padding: 32px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); z-index: 50; animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -79,20 +61,7 @@
 
 .axis-labels { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
 
-/* HUD is no longer absolute. It sits at the bottom safely. */
-.controls-hud {
-  width: 100%;
-  max-width: 1200px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  padding: 12px 24px;
-  border-radius: 30px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center; /* Centers the controls nicely */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
+.controls-hud { width: 100%; max-width: 1200px; background: var(--bg-panel); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: 30px; display: flex; gap: 16px; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .icon-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; transition: 0.2s; }
 .icon-btn:hover:not(:disabled) { color: var(--text-main); background: rgba(255,255,255,0.05); }
 .icon-btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -102,7 +71,6 @@
 .play-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 
 .divider { width: 1px; height: 30px; background-color: var(--border-color); }
-
 .number-input { width: 60px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; text-align: center; }
 .number-input:focus { border-color: var(--primary); }
 .number-input:disabled { opacity: 0.5; cursor: not-allowed; }

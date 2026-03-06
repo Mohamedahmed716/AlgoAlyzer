@@ -15,17 +15,27 @@ export class AnimationService {
   isRunning = signal<boolean>(false);
   isSorted = signal<boolean>(false);
 
-  // NEW: Changed default speed to 50ms to match the new Medium setting
   speedMs = signal<number>(50);
 
   comparisons = signal<number>(0);
   interchanges = signal<number>(0);
 
-  private delay = () => new Promise(resolve => setTimeout(resolve, this.speedMs()));
   private stopFlag = false;
+  private isPaused = false;
+
+  // The custom delay function that traps execution when paused
+  private async delay() {
+    await new Promise(resolve => setTimeout(resolve, this.speedMs()));
+
+    // Trap the loop here if the user clicked Pause
+    while (this.isPaused) {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    }
+  }
 
   generateArray(size: number) {
     this.stopFlag = true;
+    this.isPaused = false;
     this.isRunning.set(false);
     this.isSorted.set(false);
     this.comparisons.set(0);
@@ -39,10 +49,21 @@ export class AnimationService {
     this.orbs.set(newOrbs);
   }
 
-  setSpeed(ms: number) { this.speedMs.set(ms); }
+  setSpeed(ms: number) {
+    this.speedMs.set(ms);
+  }
+
+  pause() {
+    this.isPaused = true;
+  }
+
+  resume() {
+    this.isPaused = false;
+  }
 
   stop() {
     this.stopFlag = true;
+    this.isPaused = false; // Release the trap so the loop can exit cleanly
     this.isRunning.set(false);
   }
 
@@ -57,7 +78,7 @@ export class AnimationService {
 
   // --- 1. BUBBLE SORT ---
   async runBubbleSort() {
-    this.stopFlag = false; this.isRunning.set(true); this.isSorted.set(false);
+    this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
     let n = arr.length;
@@ -90,7 +111,7 @@ export class AnimationService {
 
   // --- 2. SELECTION SORT ---
   async runSelectionSort() {
-    this.stopFlag = false; this.isRunning.set(true); this.isSorted.set(false);
+    this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
     let n = arr.length;
@@ -130,7 +151,7 @@ export class AnimationService {
 
   // --- 3. INSERTION SORT ---
   async runInsertionSort() {
-    this.stopFlag = false; this.isRunning.set(true); this.isSorted.set(false);
+    this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
     let n = arr.length;
@@ -165,7 +186,7 @@ export class AnimationService {
 
   // --- 4. MERGE SORT ---
   async runMergeSort() {
-    this.stopFlag = false; this.isRunning.set(true); this.isSorted.set(false);
+    this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
     await this.mergeSortHelper(arr, 0, arr.length - 1);
@@ -213,7 +234,7 @@ export class AnimationService {
 
   // --- 5. QUICK SORT ---
   async runQuickSort() {
-    this.stopFlag = false; this.isRunning.set(true); this.isSorted.set(false);
+    this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
     await this.quickSortHelper(arr, 0, arr.length - 1);
@@ -267,7 +288,7 @@ export class AnimationService {
 
   // --- 6. HEAP SORT ---
   async runHeapSort() {
-    this.stopFlag = false; this.isRunning.set(true); this.isSorted.set(false);
+    this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
     let n = arr.length;
