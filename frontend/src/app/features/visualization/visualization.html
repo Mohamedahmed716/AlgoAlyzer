@@ -28,26 +28,69 @@
     </div>
   </div>
 
-  <div class="canvas-area">
-    <div class="grid-lines">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
-    </div>
+  <div class="canvas-area" [class.split-view]="selectedAlgo === 'Heap Sort' || selectedAlgo === 'Merge Sort'">
 
-    @for (orb of animService.orbs(); track orb.id) {
-      <div class="orb-track">
-        <div class="orb"
-             [class.active-orb]="orb.state === 'comparing'"
-             [class.swapping-orb]="orb.state === 'swapping'"
-             [class.sorted-orb]="orb.state === 'sorted'"
-             [style.height.%]="orb.height"
-             [style.background-color]="orb.state === 'sorted' ? 'var(--success)' : (orb.state === 'swapping' ? '#ec4899' : 'var(--primary)')"
-             [style.box-shadow]="orb.state === 'sorted' ? '0 0 15px var(--success)' : (orb.state === 'swapping' ? '0 0 20px #ec4899' : '0 0 15px var(--primary)')">
-        </div>
+    @if (selectedAlgo === 'Heap Sort') {
+      <div class="tree-container">
+        <svg class="heap-svg" width="100%" height="100%">
+          @for (line of getHeapLines(); track $index) {
+            <line
+              [attr.x1]="line.x1 + '%'" [attr.y1]="line.y1 + '%'"
+              [attr.x2]="line.x2 + '%'" [attr.y2]="line.y2 + '%'"
+              [attr.stroke]="line.active ? '#ec4899' : 'rgba(255,255,255,0.2)'"
+              [attr.stroke-width]="line.active ? 3 : 1" />
+          }
+          @for (node of getHeapNodes(); track node.id) {
+            <circle
+              [attr.cx]="node.cx + '%'" [attr.cy]="node.cy + '%'"
+              [attr.r]="arraySize > 50 ? 6 : 12"
+              [attr.fill]="getOrbColor(node.state)"
+              [attr.stroke]="node.state !== 'idle' ? 'white' : 'transparent'"
+              stroke-width="2" />
+            @if (arraySize <= 50) {
+              <text [attr.x]="node.cx + '%'" [attr.y]="node.cy + '%'" fill="white" font-size="10" font-family="monospace" text-anchor="middle" dominant-baseline="central">
+                {{node.value}}
+              </text>
+            }
+          }
+        </svg>
       </div>
     }
+
+    @if (selectedAlgo === 'Merge Sort') {
+      <div class="merge-tree-container">
+        @for (block of getMergeBlocks(); track $index) {
+          <div class="merge-level" [style.top.%]="Math.min(block.depth * 15, 80)">
+            <div class="merge-block active-merge" [style.left.%]="block.left" [style.width.%]="block.width">
+              <div class="merge-split-line" [style.left.%]="block.midSplit"></div>
+              <span class="merge-label">Depth {{block.depth}}</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="bars-container">
+      <div class="grid-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+
+      @for (orb of animService.orbs(); track orb.id) {
+        <div class="orb-track">
+          <div class="orb"
+               [class.active-orb]="orb.state === 'comparing'"
+               [class.swapping-orb]="orb.state === 'swapping'"
+               [class.sorted-orb]="orb.state === 'sorted'"
+               [style.height.%]="orb.height"
+               [style.background-color]="orb.state === 'sorted' ? 'var(--success)' : (orb.state === 'swapping' ? '#ec4899' : 'var(--primary)')"
+               [style.box-shadow]="orb.state === 'sorted' ? '0 0 15px var(--success)' : (orb.state === 'swapping' ? '0 0 20px #ec4899' : '0 0 15px var(--primary)')">
+          </div>
+        </div>
+      }
+    </div>
 
     @if (animService.isSorted()) {
       <div class="stats-overlay">

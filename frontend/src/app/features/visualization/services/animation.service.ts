@@ -7,6 +7,13 @@ export interface Orb {
   state: 'idle' | 'comparing' | 'swapping' | 'sorted';
 }
 
+export interface MergeBounds {
+  l: number;
+  r: number;
+  m: number;
+  depth: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,14 +27,14 @@ export class AnimationService {
   comparisons = signal<number>(0);
   interchanges = signal<number>(0);
 
+  // Tracks the current recursion block for Merge Sort
+  activeMergeBounds = signal<MergeBounds | null>(null);
+
   private stopFlag = false;
   private isPaused = false;
 
-  // The custom delay function that traps execution when paused
   private async delay() {
     await new Promise(resolve => setTimeout(resolve, this.speedMs()));
-
-    // Trap the loop here if the user clicked Pause
     while (this.isPaused) {
       await new Promise(resolve => setTimeout(resolve, 50));
     }
@@ -40,6 +47,7 @@ export class AnimationService {
     this.isSorted.set(false);
     this.comparisons.set(0);
     this.interchanges.set(0);
+    this.activeMergeBounds.set(null);
 
     const newOrbs: Orb[] = [];
     for (let i = 0; i < size; i++) {
@@ -63,7 +71,7 @@ export class AnimationService {
 
   stop() {
     this.stopFlag = true;
-    this.isPaused = false; // Release the trap so the loop can exit cleanly
+    this.isPaused = false;
     this.isRunning.set(false);
   }
 
@@ -72,6 +80,7 @@ export class AnimationService {
       arr.forEach(o => o.state = 'sorted');
       this.orbs.set([...arr]);
       this.isSorted.set(true);
+      this.activeMergeBounds.set(null);
     }
     this.isRunning.set(false);
   }
@@ -189,15 +198,21 @@ export class AnimationService {
     this.stopFlag = false; this.isPaused = false; this.isRunning.set(true); this.isSorted.set(false);
     this.comparisons.set(0); this.interchanges.set(0);
     let arr = [...this.orbs()];
-    await this.mergeSortHelper(arr, 0, arr.length - 1);
+    await this.mergeSortHelper(arr, 0, arr.length - 1, 0);
     this.markAllSorted(arr);
   }
 
-  private async mergeSortHelper(arr: Orb[], l: number, r: number) {
+  private async mergeSortHelper(arr: Orb[], l: number, r: number, depth: number) {
     if (l < r) {
       let m = Math.floor(l + (r - l) / 2);
-      await this.mergeSortHelper(arr, l, m); if (this.stopFlag) return;
-      await this.mergeSortHelper(arr, m + 1, r); if (this.stopFlag) return;
+
+      this.activeMergeBounds.set({ l, r, m, depth });
+      await this.delay();
+
+      await this.mergeSortHelper(arr, l, m, depth + 1); if (this.stopFlag) return;
+      await this.mergeSortHelper(arr, m + 1, r, depth + 1); if (this.stopFlag) return;
+
+      this.activeMergeBounds.set({ l, r, m, depth });
       await this.merge(arr, l, m, r);
     }
   }

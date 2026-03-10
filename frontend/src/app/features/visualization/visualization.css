@@ -16,18 +16,17 @@
 .algo-select:focus { border-color: var(--primary); }
 .algo-select:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* The Canvas now acts as a wrapper. By default, it flexes horizontally */
 .canvas-area {
   width: 100%;
   max-width: 1200px;
   flex: 1;
-  min-height: 350px;
+  min-height: 450px;
   max-height: 700px;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-evenly;
+  flex-direction: row;
   border-bottom: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
-  padding: 20px 10px;
   position: relative;
   background: var(--bg-panel);
   border-radius: 12px;
@@ -35,10 +34,57 @@
   overflow: hidden;
 }
 
+/* When split-view is active, it stacks vertically */
+.canvas-area.split-view {
+  flex-direction: column;
+}
+
+/* The physical bars area */
+.bars-container {
+  width: 100%;
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  padding: 20px 10px;
+  box-sizing: border-box;
+}
+
+/* When split, the bars shrink to 40% height at the bottom */
+.split-view .bars-container {
+  flex: none;
+  height: 40%;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 10px;
+}
+
+/* The upper tree sections take up 60% of the screen */
+.tree-container, .merge-tree-container {
+  height: 60%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* SVG Heap Tree CSS */
+.heap-svg { overflow: visible; width: 100%; height: 100%; }
+.heap-svg circle { transition: fill 0.2s, stroke 0.2s, cx 0.3s, cy 0.3s; }
+.heap-svg line { transition: stroke 0.2s, stroke-width 0.2s, x1 0.3s, y1 0.3s, x2 0.3s, y2 0.3s; }
+
+/* SVG Merge Tree CSS */
+.merge-tree-container { background: repeating-linear-gradient(0deg, transparent, transparent 19%, rgba(255,255,255,0.03) 20%); }
+.merge-level { position: absolute; width: 100%; height: 20%; transition: top 0.3s ease; }
+.merge-block { position: absolute; height: 80%; top: 10%; background: rgba(99, 102, 241, 0.2); border: 2px solid var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); overflow: hidden; }
+.merge-split-line { position: absolute; height: 100%; width: 2px; background: rgba(255,255,255,0.5); top: 0; }
+.merge-label { font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: white; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; }
+
 .grid-lines { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; opacity: 0.05; }
 .grid-lines .line { width: 100%; height: 1px; background: white; }
 
-.orb-track { height: 80%; flex: 1 1 0%; max-width: 40px; position: relative; display: flex; justify-content: center; }
+.orb-track { height: 90%; flex: 1 1 0%; max-width: 40px; position: relative; display: flex; justify-content: center; }
 .orb-track::before { content: ''; position: absolute; bottom: 0; width: 1px; height: 100%; background: linear-gradient(to top, rgba(255,255,255,0.1), transparent); }
 
 .orb { width: 85%; min-width: 2px; max-width: 16px; border-radius: 999px; position: absolute; bottom: 0; transition: all 0.1s ease-in-out; }
