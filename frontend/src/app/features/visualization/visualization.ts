@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class VisualizationComponent implements OnInit {
   public animService = inject(AnimationService);
-  Math = Math; // Required for inline math in the HTML template
+  Math = Math;
 
   selectedAlgo: string = 'Bubble Sort';
   arraySize: number = 25;
